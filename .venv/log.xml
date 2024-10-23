@@ -1,0 +1,26 @@
+<log>
+	<instruction>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=313</B>
+		<C>C=561</C>
+	</instruction>
+	<instruction>
+		<key>READ_MEM</key>
+		<A>A=138</A>
+		<B>B=37</B>
+		<C>C=265</C>
+	</instruction>
+	<instruction>
+		<key>WRITE_MEM</key>
+		<A>A=9</A>
+		<B>B=191</B>
+		<C>C=666</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=626</B>
+		<C>C=97</C>
+	</instruction>
+</log>

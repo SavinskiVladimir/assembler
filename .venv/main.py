@@ -144,10 +144,12 @@ if __name__ == "__main__":
     results = vm.execute(result_range_start, result_range_end)
 
     # Запись результатов в XML файл
-    root_results = ET.Element("results")
+    root_results = ET.Element("memory_units")
+    count = 0
     for i in range(len(results)):
-        result_element = ET.SubElement(root_results, "result")
+        result_element = ET.SubElement(root_results, f"unit{count}")
         result_element.text = str(results[i])
+        count += 1
 
     xml_str = ET.tostring(root_results).decode()
     pretty_sml_str = minidom.parseString(xml_str).toprettyxml(indent="\t")

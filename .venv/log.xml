@@ -2,25 +2,73 @@
 	<instruction>
 		<key>LOAD_CONST</key>
 		<A>A=214</A>
-		<B>B=313</B>
-		<C>C=561</C>
+		<B>B=0</B>
+		<C>C=42</C>
 	</instruction>
 	<instruction>
-		<key>READ_MEM</key>
-		<A>A=138</A>
-		<B>B=37</B>
-		<C>C=265</C>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=1</B>
+		<C>C=51</C>
 	</instruction>
 	<instruction>
-		<key>WRITE_MEM</key>
-		<A>A=9</A>
-		<B>B=191</B>
-		<C>C=666</C>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=2</B>
+		<C>C=60</C>
+	</instruction>
+	<instruction>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=3</B>
+		<C>C=7</C>
+	</instruction>
+	<instruction>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=4</B>
+		<C>C=9</C>
+	</instruction>
+	<instruction>
+		<key>LOAD_CONST</key>
+		<A>A=214</A>
+		<B>B=5</B>
+		<C>C=85</C>
 	</instruction>
 	<instruction>
 		<key>POP_CNT</key>
 		<A>A=241</A>
-		<B>B=626</B>
-		<C>C=97</C>
+		<B>B=10</B>
+		<C>C=0</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=11</B>
+		<C>C=1</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=12</B>
+		<C>C=2</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=13</B>
+		<C>C=3</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=14</B>
+		<C>C=4</C>
+	</instruction>
+	<instruction>
+		<key>POP_CNT</key>
+		<A>A=241</A>
+		<B>B=15</B>
+		<C>C=5</C>
 	</instruction>
 </log>

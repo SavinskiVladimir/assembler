@@ -74,6 +74,12 @@ class VirtualMachine:
         self.memory[97] = 103
         self.memory[561] = 104
         self.memory[626] = 34
+        self.memory[10] = 10 # для тестирования основной программы
+        self.memory[11] = 11 # в ячейки, хранящие адреса результирующих ячеек,
+        self.memory[12] = 12 # фиксируем сами эти ячейки для простоты
+        self.memory[13] = 13
+        self.memory[14] = 14
+        self.memory[15] = 15
         self.pc = 0  # программный счетчик
     def load_program(self, binary_file):
         with open(binary_file, 'rb') as f:
@@ -85,7 +91,7 @@ class VirtualMachine:
             opcode = self.program[self.pc]
 
             if opcode == 0xD6:  # LOAD_CONST
-                instruction = self.program[self.pc:self.pc + 6]  # читаем 6 байт
+                instruction = self.program[self.pc:self.pc + 6]  # чтение 6 байт
                 A = instruction[0]
                 B = struct.unpack('>H', instruction[1:3])[0]
                 C = struct.unpack('>I', b'\x00' + instruction[3:])[0]  # читаем C как 3 байта с нулем
@@ -93,31 +99,31 @@ class VirtualMachine:
                 self.pc += 6
 
             elif opcode == 0x8A:  # READ_MEM
-                instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
+                instruction = self.program[self.pc:self.pc + 5]  # чтение 5 байт
                 A = instruction[0]
                 B = struct.unpack('>H', instruction[1:3])[0]
                 C_address = struct.unpack('>H', instruction[3:])[0]
-                C_value = self.memory[self.memory[C_address]]  # читаем из памяти по адресу C
+                C_value = self.memory[self.memory[C_address]]  # читаем из памяти по адресу, записанному в C
                 self.memory[B] = C_value  # записываем в память по адресу B
                 self.pc += 5
 
             elif opcode == 0x09:  # WRITE_MEM
-                instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
+                instruction = self.program[self.pc:self.pc + 5]  # чтение 5 байт
                 A = instruction[0]
                 B_address = struct.unpack('>H', instruction[1:3])[0]
                 C_address = struct.unpack('>H', instruction[3:])[0]
-                self.memory[self.memory[C_address]] = self.memory[B_address]  # запись значения в память
+                self.memory[self.memory[C_address]] = self.memory[B_address]  # запись значения в память по адресу, записанному в С, значения из B
                 self.pc += 5
 
             elif opcode == 0xF1:  # POP_CNT
-                instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
+                instruction = self.program[self.pc:self.pc + 5]  # чтение 5 байт
                 A = instruction[0]
                 B_address = struct.unpack('>H', instruction[1:3])[0]
                 C_address = struct.unpack('>H', instruction[3:])[0]
 
                 value_to_count = self.memory[C_address]  # чтение значения из памяти по адресу C
-                popcnt_result = bin(value_to_count).count('1')  # подсчет количества единиц в двоичном представлении
-                self.memory[self.memory[B_address]] = popcnt_result  # запись результата в память по адресу B
+                popcnt_result = bin(value_to_count).count('1')  # подсчет количества единиц в двоичном представлении значения
+                self.memory[self.memory[B_address]] = popcnt_result  # запись результата в память по адресу, записанному в B
                 self.pc += 5
 
             else:
@@ -131,21 +137,22 @@ if __name__ == "__main__":
         print("Usage: python assembler_interpreter.py <input_file> <binary_file> <log_file> <result_range_start> <result_range_end>")
         sys.exit(1)
 
-    input_file = sys.argv[1]
-    binary_file = sys.argv[2]
-    log_file = sys.argv[3]
-    result_range_start = int(sys.argv[4])
-    result_range_end = int(sys.argv[5])
+    # получение аргументов из командной строки
+    input_file = sys.argv[1] # путь к обрабатываемому файлу
+    binary_file = sys.argv[2] # путь к бинарному файлу для записи результата работы ассемблера
+    log_file = sys.argv[3] # путь к лог-файлу
+    result_range_start = int(sys.argv[4]) # начало участка памяти, хранящего результат
+    result_range_end = int(sys.argv[5]) # конец участка памяти, хранящего результат
 
-    assemble(input_file, binary_file, log_file)
+    assemble(input_file, binary_file, log_file) # ассемблирование команд
 
     vm = VirtualMachine()
-    vm.load_program(binary_file)
-    results = vm.execute(result_range_start, result_range_end)
+    vm.load_program(binary_file) # загрузка ассемблированных команд в память УВМ
+    results = vm.execute(result_range_start, result_range_end) # интерпретация команд
 
-    # Запись результатов в XML файл
+    # запись результатов в XML файл
     root_results = ET.Element("memory_units")
-    count = 0
+    count = int(result_range_start)
     for i in range(len(results)):
         result_element = ET.SubElement(root_results, f"unit{count}")
         result_element.text = str(results[i])

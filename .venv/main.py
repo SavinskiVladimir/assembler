@@ -10,7 +10,7 @@ def assemble(input_file, binary_file, log_file):
     with open(input_file, 'r') as f:
         for line in f:
             parts = line.strip().split() # разделение прочитанной команды на части
-            if not parts or parts[0] == 'END':
+            if not parts:
                 continue
             A, B, C = map(int, parts)  # получение значений аргументов и перевод их в int числа
             if A == 214: # обработка загрузки константы
@@ -130,7 +130,7 @@ class VirtualMachine:
                 print(f"Unknown opcode: {opcode}")  # сообщение о неизвестном коде операции
                 break
 
-        return self.memory[result_range_start:result_range_end] # возврат участка памяти, содержащего результат
+        return self.memory[result_range_start:result_range_end + 1] # возврат участка памяти, содержащего результат
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:

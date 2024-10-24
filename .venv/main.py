@@ -66,13 +66,18 @@ def assemble(input_file, binary_file, log_file):
 class VirtualMachine:
     def __init__(self, memory_size=1024):
         self.memory = [0] * memory_size  # инициализация памяти
+        # запись в память значений для тестирования простой программы
         self.memory[265] = 101
-        self.memory[191] = 101
+        self.memory[101] = 63
+        self.memory[191] = 102
+        self.memory[666] = 665
+        self.memory[97] = 103
+        self.memory[561] = 104
+        self.memory[626] = 34
         self.pc = 0  # программный счетчик
     def load_program(self, binary_file):
         with open(binary_file, 'rb') as f:
-            self.program = f.read()  # загрузка программы в память
-        print(self.program)
+            self.program = f.read()  # загрузка программы в памяти
 
     def execute(self, result_range_start, result_range_end):
         while self.pc < len(self.program):
@@ -91,7 +96,7 @@ class VirtualMachine:
                 instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
                 A = instruction[0]
                 B = struct.unpack('>H', instruction[1:3])[0]
-                C_address = struct.unpack('>H', instruction[3:5])[0]
+                C_address = struct.unpack('>H', instruction[3:])[0]
                 C_value = self.memory[self.memory[C_address]]  # читаем из памяти по адресу C
                 self.memory[B] = C_value  # записываем в память по адресу B
                 self.pc += 5
@@ -100,7 +105,7 @@ class VirtualMachine:
                 instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
                 A = instruction[0]
                 B_address = struct.unpack('>H', instruction[1:3])[0]
-                C_address = struct.unpack('>H', instruction[3:5])[0]
+                C_address = struct.unpack('>H', instruction[3:])[0]
                 self.memory[self.memory[C_address]] = self.memory[B_address]  # запись значения в память
                 self.pc += 5
 
@@ -108,9 +113,9 @@ class VirtualMachine:
                 instruction = self.program[self.pc:self.pc + 5]  # читаем 5 байт
                 A = instruction[0]
                 B_address = struct.unpack('>H', instruction[1:3])[0]
-                C_address = struct.unpack('>H', instruction[3:5])[0]
+                C_address = struct.unpack('>H', instruction[3:])[0]
 
-                value_to_count = self.memory[self.memory[C_address]]  # чтение значения из памяти по адресу C
+                value_to_count = self.memory[C_address]  # чтение значения из памяти по адресу C
                 popcnt_result = bin(value_to_count).count('1')  # подсчет количества единиц в двоичном представлении
                 self.memory[self.memory[B_address]] = popcnt_result  # запись результата в память по адресу B
                 self.pc += 5

@@ -83,11 +83,11 @@ class VirtualMachine:
         self.pc = 0  # программный счетчик
     def load_program(self, binary_file):
         with open(binary_file, 'rb') as f:
-            self.program = f.read()  # загрузка программы в памяти
+            self.program = f.read()  # загрузка программы в память
 
     def execute(self, result_range_start, result_range_end):
         while self.pc < len(self.program):
-            # Читаем первый байт для определения размера инструкции
+            # чтение 1 байта - кода операции
             opcode = self.program[self.pc]
 
             if opcode == 0xD6:  # LOAD_CONST
